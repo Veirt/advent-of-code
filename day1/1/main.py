@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 count = 0
-with open("./day1.input") as f:
+with open("../day1.input") as f:
     inputs = list(map(lambda i: int(i), f.readlines()))
     prev = inputs[0]
 
