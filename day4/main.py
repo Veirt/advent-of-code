@@ -1,21 +1,17 @@
 #!/usr/bin/env python
 
 
-# might be wrong.
 def check_bingo_win(marked_boards):
-    for key, value in marked_boards.items():
-        board = value
+    vertical = [0 for _ in range(5)]
+    for row in marked_boards:
+        horizontal = 0
 
-        vertical = [0 for _ in range(5)]
-        for row in board:
-            horizontal = 0
+        for item_idx, item in enumerate(row):
+            horizontal += int(item)
+            vertical[item_idx] += int(item)
 
-            for item_idx, item in enumerate(row):
-                horizontal += int(item)
-                vertical[item_idx] += int(item)
-
-                if horizontal == 5 or vertical[item_idx] == 5:
-                    return True
+            if horizontal == 5 or vertical[item_idx] == 5:
+                return True
 
 
 def loop_drawn_number(boards, drawn_numbers):
@@ -34,7 +30,7 @@ def loop_drawn_number(boards, drawn_numbers):
                     # get the index
                     idx = row.index(num)
                     marked_boards[key][row_idx][idx] = 1
-                    win = check_bingo_win(marked_boards)
+                    win = check_bingo_win(marked_boards[key])
                     if win:
                         return (key, marked_boards[key], num)
 
@@ -65,9 +61,7 @@ def get_boards():
     return drawn_numbers, boards
 
 
-def part_1():
-    drawn_numbers, boards = get_boards()
-
+def part_1(drawn_numbers, boards):
     # i could have check that it must be drawn 5 times first.
     # but no. i'm done with this.
     # i will just check it every time, lol
@@ -90,48 +84,69 @@ def part_1():
     print(ans)
 
 
-# fuck this
-# def get_last_win(boards, drawn_numbers):
-#     marked_boards = {}
-#     winner = {_: False for _ in range(len(boards))}
-#     winner_left = len(boards)
-#
-#     for i in range(len(boards)):
-#         # 5 = length of bingo board
-#         marked_boards[i] = [[0, 0, 0, 0, 0] for _ in range(5)]
-#
-#     # oh look at my code
-#     # disgusting
-#     for num in drawn_numbers:
-#         for key, value in boards.items():
-#             board = value
-#
-#             if not winner[key]:
-#                 for row_idx, row in enumerate(board):
-#                     # if the drawn number is in board row
-#                     if num in row:
-#                         # get the index
-#                         idx = row.index(num)
-#                         marked_boards[key][row_idx][idx] = 1
-#                         win = check_bingo_win(marked_boards)
-#                         if win:
-#                             print(marked_boards)
-#                             winner[key] = True
-#                             winner_left -= 1
-#
-#                             if winner_left == 0:
-#                                 return (key, marked_boards[key], num)
-#
-#
-# def part_2():
-#     drawn_numbers, boards = get_boards()
-#
-#     last_winner_key, marked_boards, last_num = get_last_win(boards, drawn_numbers)
-#     # print(last_winner_key, last_num)
+def get_last_win(boards, drawn_numbers):
+    marked_boards = {}
+    winner_list = []
+
+    for i in range(len(boards)):
+        # 5 = length of bingo board
+        marked_boards[i] = [[0, 0, 0, 0, 0] for _ in range(5)]
+
+    for num in drawn_numbers:
+
+        for key, value in boards.items():
+            board = value
+
+            # if already win, no need to loop again.
+            if key in winner_list:
+                continue
+
+            for row_idx, row in enumerate(board):
+                # if the drawn number is in board row
+                if num in row:
+                    # get the index
+                    idx = row.index(num)
+                    # mark the number (change to 1)
+                    marked_boards[key][row_idx][idx] = 1
+
+                    # check win
+                    win = check_bingo_win(marked_boards[key])
+
+                    if win:
+                        # append to winner list
+                        print(key, marked_boards[key])
+                        print(num)
+                        winner_list.append(key)
+
+                        # this means if all of the players win
+                        if len(winner_list) == len(boards):
+                            return key, marked_boards[key], num
+
+
+def part_2(drawn_numbers, boards):
+
+    last_winner_key, last_winner_marked_boards, last_num = get_last_win(
+        boards, drawn_numbers
+    )
+
+    total_unmarked_number = 0
+
+    for (
+        marked_board,
+        board,
+    ) in zip(last_winner_marked_boards, boards[last_winner_key]):
+        for m, b in zip(marked_board, board):
+            if m == 0:
+                total_unmarked_number += int(b)
+
+    ans = int(last_num) * int(total_unmarked_number)
+    print(ans)
 
 
 if __name__ == "__main__":
     file = open("./day4.input")
-    part_1()
-    # part_2()
+    drawn_numbers, boards = get_boards()
     file.close()
+
+    part_1(drawn_numbers, boards)
+    part_2(drawn_numbers, boards)
