@@ -17,7 +17,8 @@ def count_overlap(list):
 
 
 def get_input() -> List[Tuple[int, int, int, int]]:
-    with open("./day5.test") as f:
+    input_file = "./day5.input"
+    with open(input_file) as f:
 
         # turn input to suitable data structure
         def split_to_tuple(acc, curr):
@@ -57,7 +58,6 @@ def part_1():
     initial_list = create_initial_list()
 
     for coordinate in input:
-        print(coordinate)
         x1 = coordinate[0]
         y1 = coordinate[1]
         x2 = coordinate[2]
@@ -90,10 +90,81 @@ def part_1():
                     x -= 1
 
     print("part 1")
-    print(initial_list)
+    print(count_overlap(initial_list))
+
+
+# this code sucks
+def part_2():
+
+    initial_list = create_initial_list()
+
+    for coordinate in input:
+        x1 = coordinate[0]
+        y1 = coordinate[1]
+        x2 = coordinate[2]
+        y2 = coordinate[3]
+
+        if x1 == x2:
+            y = y1
+            if y1 < y2:
+                while y <= y2:
+                    initial_list[x1][y] += 1
+
+                    y += 1
+            else:
+                while y >= y2:
+                    initial_list[x1][y] += 1
+
+                    y -= 1
+
+        elif y1 == y2:
+            x = x1
+            if x1 < x2:
+                while x <= x2:
+                    initial_list[x][y1] += 1
+
+                    x += 1
+            else:
+                while x >= x2:
+                    initial_list[x][y1] += 1
+
+                    x -= 1
+        else:
+            x = x1
+            y = y1
+
+            if x1 <= x2 and y1 >= y2:
+                while x <= x2 and y >= y2:
+                    initial_list[x][y] += 1
+
+                    x += 1
+                    y -= 1
+            elif x1 >= x2 and y1 <= y2:
+                while x >= x2 and y <= y2:
+                    initial_list[x][y] += 1
+
+                    x -= 1
+                    y += 1
+            elif x1 <= x2 and y1 <= y2:
+                while x <= x2 and y <= y2:
+                    initial_list[x][y] += 1
+
+                    x += 1
+                    y += 1
+            elif x1 >= x2 and y1 >= y2:
+                while x >= x2 and y >= y2:
+                    initial_list[x][y] += 1
+
+                    x -= 1
+                    y -= 1
+            else:
+                print("please no")
+
+    print("part 2")
     print(count_overlap(initial_list))
 
 
 if __name__ == "__main__":
     input = get_input()
     part_1()
+    part_2()
