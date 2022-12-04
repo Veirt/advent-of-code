@@ -55,7 +55,7 @@ def get_score(opponent, player):
 
 
 def part_1():
-    with open("./day2.example.txt", "r") as f:
+    with open("./day2.input.txt", "r") as f:
         lines = f.readlines()
 
         total = 0
@@ -84,11 +84,13 @@ def get_score_2(opponent, player):
     assert player
     assert opponent
 
+    # Z = "WIN"
     if result == "Z":
         return shape_score[table[opponent]["lose"]], result_score["win"]
-
+    # X = "LOSE"
     elif result == "X":
         return shape_score[table[opponent]["win"]], result_score["lose"]
+    # Y = "DRAW"
     else:
         return shape_score[opponent], result_score["draw"]
 
@@ -107,5 +109,5 @@ def part_2():
 
 
 if __name__ == "__main__":
-    # part_1()
+    part_1()
     part_2()
