@@ -33,20 +33,3 @@ fn main() {
 
     println!("{}", result);
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_part2() {
-        let result = "two1nine
-eightwothree
-abcone2threexyz
-xtwone3four
-4nineeightseven2
-zoneight234
-7pqrstsixteen";
-
-        assert_eq!(part2(result), 280);
-    }
