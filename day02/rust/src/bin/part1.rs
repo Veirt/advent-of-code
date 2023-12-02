@@ -66,4 +66,11 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green";
 
         assert_eq!(process(input), 8);
     }
+
+    #[test]
+    fn bigboy() {
+        let input = include_str!("../../../day02.bigboy.txt");
+
+        assert_eq!(process(input), 5080);
+    }
 }
