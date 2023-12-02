@@ -27,14 +27,8 @@ fn process(input: &str) -> u32 {
                     .expect("should be a valid number");
                 let color = count_and_color[1];
 
-                let opt_color_min = cube_minimum.get(color);
-                if let Some(color_min) = opt_color_min {
-                    if &count > color_min {
-                        *cube_minimum.get_mut(color).unwrap() = count;
-                    }
-                } else {
-                    cube_minimum.insert(color, count);
-                }
+                let color_min = cube_minimum.entry(color).or_insert(count);
+                *color_min = std::cmp::max(count, *color_min);
             }
         }
 
