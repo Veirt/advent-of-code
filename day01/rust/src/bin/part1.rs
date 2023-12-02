@@ -25,11 +25,15 @@ fn process(input: &str) -> u32 {
             }
         }
 
-        if first_digit.is_some() && last_digit.is_some() {
-            let concatted_digit = format!("{}{}", first_digit.unwrap(), last_digit.unwrap());
-            let num: u32 = concatted_digit.parse().unwrap();
-            result += num;
-        }
+        let concatted_digit = format!(
+            "{}{}",
+            first_digit.expect("should be a number"),
+            last_digit.expect("should be a number")
+        );
+
+        let num: u32 = concatted_digit.parse().expect("should be a valid number");
+
+        result += num;
     }
 
     result
