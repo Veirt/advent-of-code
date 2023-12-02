@@ -1,5 +1,5 @@
-fn part1(input: &str) -> u32 {
-    let lines: Vec<&str> = input.split("\n").collect();
+fn process(input: &str) -> u32 {
+    let lines: Vec<&str> = input.split('\n').collect();
 
     let mut result = 0;
 
@@ -12,14 +12,14 @@ fn part1(input: &str) -> u32 {
         let mut last_digit: Option<char> = None;
 
         for character in line.chars() {
-            if character.is_digit(10) {
+            if character.is_ascii_digit() {
                 first_digit = Some(character);
                 break;
             }
         }
 
         for character in line.chars().rev() {
-            if character.is_digit(10) {
+            if character.is_ascii_digit() {
                 last_digit = Some(character);
                 break;
             }
@@ -37,7 +37,7 @@ fn part1(input: &str) -> u32 {
 fn main() {
     let input = include_str!("../../../day01.input.txt");
 
-    println!("{}", part1(input));
+    println!("{}", process(input));
 }
 
 #[cfg(test)]
@@ -51,13 +51,13 @@ pqr3stu8vwx
 a1b2c3d4e5f
 treb7uchet";
 
-        assert_eq!(part1(input), 142);
+        assert_eq!(process(input), 142);
     }
 
     #[test]
     fn bigboy() {
         let input = include_str!("../../../day01.bigboy.txt");
 
-        assert_eq!(part1(input), 55022487);
+        assert_eq!(process(input), 55022487);
     }
 }
