@@ -1,12 +1,13 @@
-fn main() {
-    let input = include_str!("../../../day01.input.txt");
-
-    let mut lines: Vec<&str> = input.split("\n").collect();
-    lines.pop();
+fn part1(input: &str) -> u32 {
+    let lines: Vec<&str> = input.split("\n").collect();
 
     let mut result = 0;
 
     for line in lines {
+        if line.is_empty() {
+            continue;
+        }
+
         let mut first_digit: Option<char> = None;
         let mut last_digit: Option<char> = None;
 
@@ -31,5 +32,32 @@ fn main() {
         }
     }
 
-    println!("{}", result);
+    result
+}
+fn main() {
+    let input = include_str!("../../../day01.input.txt");
+
+    println!("{}", part1(input));
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn sample() {
+        let input = "1abc2
+pqr3stu8vwx
+a1b2c3d4e5f
+treb7uchet";
+
+        assert_eq!(part1(input), 142);
+    }
+
+    #[test]
+    fn bigboy() {
+        let input = include_str!("../../../day01.bigboy.txt");
+
+        assert_eq!(part1(input), 55022487);
+    }
 }
