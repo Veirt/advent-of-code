@@ -6,7 +6,8 @@ fn process(input: &str) -> u32 {
     let mut sum = 0;
 
     for line in lines {
-        let mut cube_minimum: HashMap<&str, u32> = HashMap::new();
+        let mut cube_minimum: HashMap<&str, u32> =
+            HashMap::from([("red", 0), ("green", 0), ("blue", 0)]);
 
         let splitted_input: Vec<&str> = line.split(": ").collect();
         let _game_number = splitted_input[0]
@@ -73,8 +74,6 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green";
 
     #[test]
     fn bigboy() {
-        todo!("fix this. still wrong.");
-
         let input = include_str!("../../../day02.bigboy.txt");
 
         assert_eq!(process(input), 15913360);
