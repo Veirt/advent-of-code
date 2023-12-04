@@ -10,8 +10,8 @@ fn check_valid_number(engine_schematic: Vec<Vec<char>>, indices: Vec<(usize, usi
     for (x, y) in indices.clone() {
         let x = x as i32;
         let y = y as i32;
-        let start_x: i32 = x as i32 - 1;
-        let start_y: i32 = y as i32 - 1;
+        let start_x = x - 1;
+        let start_y = y - 1;
 
         for x in start_x..=x + 1 {
             for y in start_y..=y + 1 {

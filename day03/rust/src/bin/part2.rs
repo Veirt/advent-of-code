@@ -18,8 +18,8 @@ fn get_asterisk_locations(
     for (x, y) in indices.clone() {
         let x = x as i32;
         let y = y as i32;
-        let start_x: i32 = x as i32 - 1;
-        let start_y: i32 = y as i32 - 1;
+        let start_x = x - 1;
+        let start_y = y - 1;
 
         for x in start_x..=x + 1 {
             for y in start_y..=y + 1 {
@@ -86,9 +86,7 @@ fn process(input: &str) -> u32 {
                             num_indices.clone(),
                         );
 
-                        if asterisk_locations.is_some() {
-                            let asterisk_locations = asterisk_locations.unwrap();
-
+                        if let Some(asterisk_locations) = asterisk_locations {
                             gear_numbers
                                 .entry(asterisk_locations)
                                 .or_insert(vec![parsed as u32])
@@ -104,9 +102,7 @@ fn process(input: &str) -> u32 {
                     let asterisk_locations =
                         get_asterisk_locations(full_engine_schematic.clone(), num_indices.clone());
 
-                    if asterisk_locations.is_some() {
-                        let asterisk_locations = asterisk_locations.unwrap();
-
+                    if let Some(asterisk_locations) = asterisk_locations {
                         gear_numbers
                             .entry(asterisk_locations)
                             .or_insert(vec![parsed as u32])
