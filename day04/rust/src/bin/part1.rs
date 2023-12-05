@@ -68,4 +68,11 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11";
 
         assert_eq!(process(input), 13);
     }
+
+    #[test]
+    fn bigboy() {
+        let input = include_str!("../../../day04.bigboy.txt");
+
+        assert_eq!(process(input), 1475828);
+    }
 }
