@@ -1,64 +1,44 @@
-use std::{
-    collections::{HashMap, HashSet},
-    num::ParseIntError,
-};
+use std::{collections::HashMap, num::ParseIntError};
 
 fn is_connected_to_gear(character: char) -> bool {
     character == '*' && !character.is_ascii_digit()
 }
 
 fn get_asterisk_locations(
-    engine_schematic: Vec<Vec<char>>,
-    indices: Vec<(usize, usize)>,
+    engine_schematic: &Vec<Vec<char>>,
+    indices: &Vec<(usize, usize)>,
 ) -> Option<(usize, usize)> {
-    // let mut gear_locations: HashSet<(usize, usize)> = HashSet::new();
-    let mut indices_to_check: HashSet<(i32, i32)> = HashSet::new();
+    let xy_len = engine_schematic.len() as i32;
 
     // check neighbor
-    for (x, y) in indices.clone() {
-        let x = x as i32;
-        let y = y as i32;
+    for (x, y) in indices {
+        let x = *x as i32;
+        let y = *y as i32;
         let start_x = x - 1;
         let start_y = y - 1;
 
         for x in start_x..=x + 1 {
             for y in start_y..=y + 1 {
-                indices_to_check.insert((x, y));
+                // filter supaya index lebih dari 0 semua
+                // filter supaya index ga lebih dari panjang
+                if x >= 0 && y >= 0 && x < xy_len && y < xy_len {
+                    let x = x as usize;
+                    let y = y as usize;
+                    if is_connected_to_gear(engine_schematic[x][y]) {
+                        return Some((x, y));
+                    }
+                }
             }
-        }
-    }
-
-    // filter supaya index lebih dari 0 semua
-    // filter supaya index ga lebih dari panjang
-    let indices_to_check: HashSet<(usize, usize)> = indices_to_check
-        .iter()
-        .filter(|indices| indices.0 >= 0 && indices.1 >= 0)
-        .filter(|indices| {
-            let xy_len = engine_schematic.len() as i32;
-
-            indices.0 < xy_len && indices.1 < xy_len
-        })
-        .map(|&(x, y)| (x as usize, y as usize))
-        .collect();
-
-    // hilangin indices_to_check sama indices yang di cek sekarang
-    let indices_to_check = &indices_to_check - &indices.iter().cloned().collect();
-    // println!("{:?}", indices_to_check);
-
-    for indices in indices_to_check {
-        let (x, y) = indices;
-        if is_connected_to_gear(engine_schematic[x][y]) {
-            return Some((x, y));
         }
     }
 
     None
 }
 
-fn process(input: &str) -> u32 {
+fn process(input: &str) -> u64 {
     let mut full_engine_schematic: Vec<Vec<char>> = vec![];
 
-    let mut gear_numbers: HashMap<(usize, usize), Vec<u32>> = HashMap::new();
+    let mut gear_numbers: HashMap<(usize, usize), Vec<u64>> = HashMap::new();
 
     let lines: Vec<&str> = input.lines().collect();
 
@@ -79,34 +59,32 @@ fn process(input: &str) -> u32 {
                 // dbg!(&num);
                 // dbg!(j);
                 if j == full_engine_schematic.len() - 1 {
-                    let num_parsed: Result<i32, ParseIntError> = num.clone().parse();
+                    let num_parsed: Result<u64, ParseIntError> = num.clone().parse();
                     if let Ok(parsed) = num_parsed {
-                        let asterisk_locations = get_asterisk_locations(
-                            full_engine_schematic.clone(),
-                            num_indices.clone(),
-                        );
+                        let asterisk_locations =
+                            get_asterisk_locations(&full_engine_schematic, &num_indices);
 
                         if let Some(asterisk_locations) = asterisk_locations {
                             gear_numbers
                                 .entry(asterisk_locations)
-                                .or_insert(vec![parsed as u32])
-                                .push(parsed as u32);
+                                .or_insert(vec![parsed as u64])
+                                .push(parsed as u64);
                         }
                     };
                     num.clear();
                     num_indices.clear();
                 }
             } else {
-                let num_parsed: Result<i32, ParseIntError> = num.clone().parse();
+                let num_parsed: Result<u64, ParseIntError> = num.clone().parse();
                 if let Ok(parsed) = num_parsed {
                     let asterisk_locations =
-                        get_asterisk_locations(full_engine_schematic.clone(), num_indices.clone());
+                        get_asterisk_locations(&full_engine_schematic, &num_indices);
 
                     if let Some(asterisk_locations) = asterisk_locations {
                         gear_numbers
                             .entry(asterisk_locations)
-                            .or_insert(vec![parsed as u32])
-                            .push(parsed as u32);
+                            .or_insert(vec![parsed as u64])
+                            .push(parsed as u64);
                     }
                 };
 
@@ -124,7 +102,6 @@ fn process(input: &str) -> u32 {
         }
     }
 
-    dbg!(&gear_numbers.clone());
     gear_ratio
 }
 
@@ -154,5 +131,13 @@ mod tests {
 .664.598..";
 
         assert_eq!(process(input), 467835);
+    }
+
+    #[test]
+    fn bigboy() {
+        let input = include_str!("../../../day03.bigboy.txt");
+
+        todo!("still doesn't work.");
+        assert_eq!(process(input), 17158526595);
     }
 }
