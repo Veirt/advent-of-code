@@ -33,7 +33,7 @@ fn process(input: &str) -> u32 {
         }
 
         let mut current_game_power = 1;
-        for (_key, value) in cube_minimum.clone().into_iter() {
+        for (_key, value) in cube_minimum.into_iter() {
             current_game_power *= value;
         }
 

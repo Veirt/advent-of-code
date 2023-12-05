@@ -67,7 +67,7 @@ fn process(input: &str) -> u64 {
                         if let Some(asterisk_locations) = asterisk_locations {
                             gear_numbers
                                 .entry(asterisk_locations)
-                                .or_insert(vec![parsed as u64])
+                                .or_default()
                                 .push(parsed as u64);
                         }
                     };
@@ -83,7 +83,7 @@ fn process(input: &str) -> u64 {
                     if let Some(asterisk_locations) = asterisk_locations {
                         gear_numbers
                             .entry(asterisk_locations)
-                            .or_insert(vec![parsed as u64])
+                            .or_default()
                             .push(parsed as u64);
                     }
                 };
@@ -96,8 +96,8 @@ fn process(input: &str) -> u64 {
 
     let mut gear_ratio = 0;
     for (_location, values) in gear_numbers.clone().into_iter() {
-        if values.len() > 2 {
-            let gear_power = values[1] * values[2];
+        if values.len() > 1 {
+            let gear_power = values[0] * values[1];
             gear_ratio += gear_power;
         }
     }

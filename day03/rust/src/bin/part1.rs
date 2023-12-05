@@ -56,7 +56,7 @@ fn process(input: &str) -> u32 {
                 // dbg!(&num);
                 // dbg!(j);
                 if j == full_engine_schematic.len() - 1 {
-                    let num_parsed: Result<i32, ParseIntError> = num.clone().parse();
+                    let num_parsed: Result<i32, ParseIntError> = num.parse();
                     if let Ok(parsed) = num_parsed {
                         if check_valid_number(&full_engine_schematic, &num_indices) {
                             sum += parsed;
@@ -67,7 +67,7 @@ fn process(input: &str) -> u32 {
                     num_indices.clear();
                 }
             } else {
-                let num_parsed: Result<i32, ParseIntError> = num.clone().parse();
+                let num_parsed: Result<i32, ParseIntError> = num.parse();
                 if let Ok(parsed) = num_parsed {
                     if check_valid_number(&full_engine_schematic, &num_indices) {
                         sum += parsed;

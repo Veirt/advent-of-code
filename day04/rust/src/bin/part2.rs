@@ -48,8 +48,8 @@ fn process(input: &str) -> u32 {
             .expect("should get the count");
 
         for _ in 0..scratchcard_count {
-            for scratchcard in scratchcards_got.clone() {
-                *scratchcards.entry(scratchcard).or_insert(1) += 1
+            for scratchcard in &scratchcards_got {
+                *scratchcards.entry(*scratchcard).or_insert(1) += 1
             }
         }
     }
