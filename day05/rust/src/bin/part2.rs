@@ -1,7 +1,7 @@
 use std::cmp;
 use std::collections::HashMap;
 
-fn get_location_map(maps: &Vec<(u32, u32, u32)>, item: u32) -> u32 {
+fn get_mapping(maps: &Vec<(u32, u32, u32)>, item: u32) -> u32 {
     for (destination_range_start, source_range_start, range_length) in maps {
         if item >= *source_range_start && item < source_range_start + range_length {
             let location = destination_range_start + (item - source_range_start);
@@ -13,13 +13,13 @@ fn get_location_map(maps: &Vec<(u32, u32, u32)>, item: u32) -> u32 {
 }
 
 fn get_location(maps: &HashMap<&str, Vec<(u32, u32, u32)>>, seed: u32) -> u32 {
-    let soil = get_location_map(&maps["seed-to-soil"], seed);
-    let fertilizer = get_location_map(&maps["soil-to-fertilizer"], soil);
-    let water = get_location_map(&maps["fertilizer-to-water"], fertilizer);
-    let light = get_location_map(&maps["water-to-light"], water);
-    let temperature = get_location_map(&maps["light-to-temperature"], light);
-    let humidity = get_location_map(&maps["temperature-to-humidity"], temperature);
-    let location = get_location_map(&maps["humidity-to-location"], humidity);
+    let soil = get_mapping(&maps["seed-to-soil"], seed);
+    let fertilizer = get_mapping(&maps["soil-to-fertilizer"], soil);
+    let water = get_mapping(&maps["fertilizer-to-water"], fertilizer);
+    let light = get_mapping(&maps["water-to-light"], water);
+    let temperature = get_mapping(&maps["light-to-temperature"], light);
+    let humidity = get_mapping(&maps["temperature-to-humidity"], temperature);
+    let location = get_mapping(&maps["humidity-to-location"], humidity);
 
     // dbg!([
     //     seed,
