@@ -35,20 +35,8 @@ fn get_location(maps: &HashMap<&str, Vec<(u64, u64, u64)>>, seed: u64) -> u64 {
     let light = get_mapping(&maps["water-to-light"], water);
     let temperature = get_mapping(&maps["light-to-temperature"], light);
     let humidity = get_mapping(&maps["temperature-to-humidity"], temperature);
-    let location = get_mapping(&maps["humidity-to-location"], humidity);
 
-    // dbg!([
-    //     seed,
-    //     soil,
-    //     fertilizer,
-    //     water,
-    //     light,
-    //     temperature,
-    //     humidity,
-    //     location
-    // ]);
-
-    location
+    get_mapping(&maps["humidity-to-location"], humidity)
 }
 
 fn process(input: &str) -> u64 {
@@ -129,11 +117,7 @@ fn process(input: &str) -> u64 {
     // dbg!(temperature_to_humidity_maps);
     // dbg!(humidity_to_location_maps);
 
-    *humidity_to_location_maps
-        .values()
-        .into_iter()
-        .min()
-        .unwrap()
+    *humidity_to_location_maps.values().min().unwrap()
 }
 
 fn process2(input: &str) -> u64 {
@@ -170,7 +154,6 @@ fn process2(input: &str) -> u64 {
     seeds
         .iter()
         .map(|seed| get_location(&maps, *seed))
-        .into_iter()
         .min()
         .unwrap()
 }

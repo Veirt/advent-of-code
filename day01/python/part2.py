@@ -16,7 +16,7 @@ letter_digit = {
 
 result = 0
 
-lines = open("./day01.input.txt").readlines()
+lines = open("../day01.input.txt").readlines()
 for line in lines:
     x = re.findall(pattern, line)
 

@@ -19,20 +19,8 @@ fn get_location(maps: &HashMap<&str, Vec<(u32, u32, u32)>>, seed: u32) -> u32 {
     let light = get_mapping(&maps["water-to-light"], water);
     let temperature = get_mapping(&maps["light-to-temperature"], light);
     let humidity = get_mapping(&maps["temperature-to-humidity"], temperature);
-    let location = get_mapping(&maps["humidity-to-location"], humidity);
 
-    // dbg!([
-    //     seed,
-    //     soil,
-    //     fertilizer,
-    //     water,
-    //     light,
-    //     temperature,
-    //     humidity,
-    //     location
-    // ]);
-
-    location
+    get_mapping(&maps["humidity-to-location"], humidity)
 }
 
 fn process(input: &str) -> u32 {

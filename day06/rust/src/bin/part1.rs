@@ -10,13 +10,13 @@ fn process(input: &str) -> u32 {
     let mut ans = 1;
 
     let times = lines[0]
-        .split(" ")
+        .split(' ')
         .collect::<Vec<&str>>()
         .iter()
         .flat_map(|time| time.parse::<u32>().ok())
         .collect::<Vec<u32>>();
     let distances = lines[1]
-        .split(" ")
+        .split(' ')
         .collect::<Vec<&str>>()
         .iter()
         .flat_map(|distance| distance.parse::<u32>().ok())

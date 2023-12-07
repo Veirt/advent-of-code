@@ -68,7 +68,7 @@ fn process(input: &str) -> u64 {
                             gear_numbers
                                 .entry(asterisk_locations)
                                 .or_default()
-                                .push(parsed as u64);
+                                .push(parsed);
                         }
                     };
                     num.clear();
@@ -84,7 +84,7 @@ fn process(input: &str) -> u64 {
                         gear_numbers
                             .entry(asterisk_locations)
                             .or_default()
-                            .push(parsed as u64);
+                            .push(parsed);
                     }
                 };
 
@@ -95,7 +95,7 @@ fn process(input: &str) -> u64 {
     }
 
     let mut gear_ratio = 0;
-    for (_location, values) in gear_numbers.clone().into_iter() {
+    for (_location, values) in gear_numbers {
         if values.len() > 1 {
             let gear_power = values[0] * values[1];
             gear_ratio += gear_power;
@@ -137,7 +137,7 @@ mod tests {
     fn bigboy() {
         let input = include_str!("../../../day03.bigboy.txt");
 
-        todo!("still doesn't work.");
         assert_eq!(process(input), 17158526595);
+        todo!("still doesn't work.");
     }
 }
