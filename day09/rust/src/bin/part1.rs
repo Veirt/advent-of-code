@@ -1,4 +1,4 @@
-fn process(input: &str) -> i32 {
+fn process(input: &str) -> i64 {
     let lines = input.lines().collect::<Vec<&str>>();
 
     let mut sum = 0;
@@ -8,15 +8,15 @@ fn process(input: &str) -> i32 {
     for line in lines {
         let sequence = line
             .split(' ')
-            .map(|num| num.parse::<i32>().unwrap())
-            .collect::<Vec<i32>>();
+            .map(|num| num.parse::<i64>().unwrap())
+            .collect::<Vec<i64>>();
 
-        let mut current: Vec<i32> = sequence.clone();
+        let mut current: Vec<i64> = sequence.clone();
 
-        let mut sequence_history: Vec<Vec<i32>> = vec![];
+        let mut sequence_history: Vec<Vec<i64>> = vec![];
 
         loop {
-            let mut temp: Vec<i32> = vec![];
+            let mut temp: Vec<i64> = vec![];
             for i in 0..current.len() - 1 {
                 temp.push(current[i + 1] - current[i]);
             }
@@ -60,5 +60,12 @@ mod tests {
 10 13 16 21 30 45";
 
         assert_eq!(process(input), 114);
+    }
+
+    #[test]
+    fn bigboy() {
+        let input = include_str!("../../../day09.bigboy.txt");
+
+        assert_eq!(process(input), 8137764536324356);
     }
 }
