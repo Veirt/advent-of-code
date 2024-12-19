@@ -6,7 +6,7 @@ use std::{
 fn part1(map: Vec<Vec<char>>, mut guard_position: (i32, i32)) -> usize {
     let mut visited: HashSet<(usize, usize)> = HashSet::new();
 
-    let moves = vec![(-1, 0), (0, 1), (1, 0), (0, -1)];
+    let moves = [(-1, 0), (0, 1), (1, 0), (0, -1)];
 
     let mut current_move = 0;
     'outer: loop {
@@ -46,11 +46,11 @@ fn part2(initial_map: Vec<Vec<char>>, initial_guard_position: (i32, i32)) -> usi
     let mut res = 0;
 
     let map = initial_map.clone();
-    let mut guard_position = initial_guard_position.clone();
+    let mut guard_position = initial_guard_position;
 
     let mut visited: HashSet<(usize, usize)> = HashSet::new();
 
-    let moves = vec![(-1, 0), (0, 1), (1, 0), (0, -1)];
+    let moves = [(-1, 0), (0, 1), (1, 0), (0, -1)];
 
     let mut current_move = 0;
     'outer: loop {
@@ -85,7 +85,7 @@ fn part2(initial_map: Vec<Vec<char>>, initial_guard_position: (i32, i32)) -> usi
 
     'outer: for v in visited {
         current_move = 0;
-        let mut guard_position = initial_guard_position.clone();
+        let mut guard_position = initial_guard_position;
         // try putting obstacle in visited
         let mut map_with_obstacle = map.clone();
         map_with_obstacle[v.0][v.1] = 'O';
@@ -153,6 +153,6 @@ fn main() {
         }
     }
 
-    part1(map.clone(), guard_position.clone());
-    part2(map.clone(), guard_position.clone());
+    part1(map.clone(), guard_position);
+    part2(map, guard_position);
 }
